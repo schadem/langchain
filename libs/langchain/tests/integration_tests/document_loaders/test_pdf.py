@@ -150,14 +150,14 @@ def test_mathpix_loader() -> None:
                 "https://amazon-textract-public-content.s3.us-east-2.amazonaws.com"
                 "/langchain/alejandro_rosalez_sample_1.jpg"
             ),
-            ["FORMS", "TABLES"],
+            ["FORMS", "TABLES", "LAYOUT"],
             1,
             False,
         ),
         (str(Path(__file__).parent.parent / "examples/hello.pdf"), ["FORMS"], 1, False),
         (
             "s3://amazon-textract-public-content/langchain/layout-parser-paper.pdf",
-            None,
+            ["FORMS", "TABLES", "LAYOUT"],
             16,
             True,
         ),
@@ -165,6 +165,7 @@ def test_mathpix_loader() -> None:
 )
 @pytest.mark.skip(reason="Requires AWS credentials to run")
 def test_amazontextract_loader(
+    caplog,
     file_path: str,
     features: Union[Sequence[str], None],
     docs_length: int,
